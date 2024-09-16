@@ -137,6 +137,7 @@ const vm=new Vue({
             }
           }
         },
+        
         series: [
           {
             name: 'Capacity',
@@ -150,7 +151,19 @@ data:[]
             name: 'Free Space',
             data: []
           }
-        ]
+        ],
+        noData: {
+          // Message displayed when there's no data
+          style: {
+            fontWeight: 'bold',
+            fontSize: '16px',
+            color: '#303030'
+          },
+          position: {
+            align: 'center',
+            verticalAlign: 'middle'
+          }
+        }
       },
       disk_count: 0,
       pool_count: 0,
@@ -201,7 +214,11 @@ data:[]
       
             // Show the slave chart and render it
       
-            Highcharts.chart('slave-chart', this.slaveChartOptions);
+            if (data.length === 0) {
+              Highcharts.chart('slave-chart', this.slaveChartOptions).showNoData();
+            } else {
+              Highcharts.chart('slave-chart', this.slaveChartOptions);
+            }
           })
           .catch(error => console.error('Error fetching slave data:', error));
       }
